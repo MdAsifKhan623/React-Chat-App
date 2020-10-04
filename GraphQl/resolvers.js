@@ -49,7 +49,6 @@ module.exports={
                 if (confirmPassword.trim()==='') error.confirmPassword='Confirm password field must not empty'
                 //check if the email exists
                 let result= await regUser.findOne({email:emailId}).exec()
-                console.log(result)
                 if (result){
                     error.email="User already exists"
                 }
