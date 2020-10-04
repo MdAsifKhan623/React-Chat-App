@@ -6,6 +6,7 @@
   "dependencies": {
     "apollo-server": "^2.18.1",
     "apollo-server-express": "^2.18.1",
+    "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "graphql": "^15.3.0",
     "mongodb": "^3.6.2",
