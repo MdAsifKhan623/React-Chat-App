@@ -1,6 +1,7 @@
 const {chatUser,regUser}=require('../models/chatlist')
-const bcrypt= require('bcryptjs')
-const { UserInputError }=require('apollo-server')
+const { UserInputError,AuthenticationError }=require('apollo-server')
+const jwt=require('jsonwebtoken')
+const { JWT_TOKEN }= require('../env.json')
 
 module.exports={
     Query: {
@@ -18,7 +19,42 @@ module.exports={
           return users
       },
       users:() => chatUser.find(), 
-      registeredUsers:() => regUser.find()
+      registeredUsers:() => regUser.find(),
+      login: async (_, args)=>{
+        let error={}
+        const {email,password}= args
+        console.log(args)
+        try{
+            if (email.trim()==='') error.email="user does not exist"
+            if (password==='') error.password="Password can't be empty"
+            if (Object.keys(error).length>0){
+                throw new UserInputError('User input error',{error})
+            }
+            let res= await regUser.findOne({email:email}).exec()
+            if (res){
+                if (res.password!=password){
+                    error.password="Incorrect Password"
+                    throw new AuthenticationError('Password Incorrect ', {error})
+                }
+                else{
+                    const token=jwt.sign({
+                        data: { email }
+                      }, JWT_TOKEN, { expiresIn: 60 * 60 });
+                    return {
+                        ...res.toJSON(),
+                        token
+                    }
+                }
+            }
+            else{
+                error.email="user does not exist"
+                throw new UserInputError('User input error',{error})
+            }
+        }catch(e){
+            console.log(e)
+            throw e
+        }
+      }
     },
     Mutation:{
         createUser:(_,{name,email,password,image})=>{
@@ -63,6 +99,7 @@ module.exports={
                 newUser = new regUser({name,email,password,confirmPassword})
                 newUser.save()
                 //return user
+                
                 return newUser
                 
             }catch(err){

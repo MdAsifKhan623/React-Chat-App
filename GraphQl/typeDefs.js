@@ -8,6 +8,7 @@ module.exports=gql`
     getUsers:[User]!
     users:[ChatUsers!]!
     registeredUsers:[usersRegister!]!
+    login(email:String!, password:String!): usersRegister!
   }
 
   type ChatUsers{
@@ -22,6 +23,7 @@ module.exports=gql`
     email:String!
     password:String
     confirmPassword:String!
+    token:String
   }
   type Mutation{
     createUser(name:String!, email:String!, password:String!,image:String!): ChatUsers!
