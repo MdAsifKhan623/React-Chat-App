@@ -19,7 +19,31 @@ module.exports={
           return users
       },
       users:() => chatUser.find(), 
-      registeredUsers:() => regUser.find(),
+      registeredUsers: (_,__,context) =>{
+           console.log(context.req)
+           let allUsers=[]
+           try{
+
+            if (context.req && context.req.headers.authorization){
+                const token=context.req.headers.authorization.split('Bearer ')[1]
+                jwt.verify(token, JWT_TOKEN, (err, decodedToken)=>{
+                    if (err){
+                        throw new AuthenticationError("Unauthenticated Error")
+                    }
+                    else{
+                         allUsers=decodedToken
+                         console.log(allUsers)
+                    }
+                })
+            }
+            let users=regUser.find({email:{$ne:allUsers.data.email}})
+            return users
+           }catch(e){
+               console.log(e)
+               return e
+           }
+           
+        },
       login: async (_, args)=>{
         let error={}
         const {email,password}= args
