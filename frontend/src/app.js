@@ -4,12 +4,15 @@ import { Container } from 'react-bootstrap'
 import './css/app.scss'
 import './css/styles.css'
 import Register from './pages/register'
+import ApolloProvider from './AppoloProvider'
 
 function App(){
     return (
-        <Container fluid>
-            <Register/>
-        </Container>
+        <ApolloProvider>
+            <Container fluid>
+                <Register/>
+            </Container>
+        </ApolloProvider>
     )
 }
 
