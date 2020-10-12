@@ -10,7 +10,7 @@ import {
 import { gql, useMutation } from '@apollo/client';
 
 const REGISTER_USER = gql`
-    mutation register($name: String!, $email:String!, $password:String!, $confirmPassword:String!) {
+    mutation Register($name: String!, $email:String!, $password:String!, $confirmPassword:String!) {
     register(name: $name, email: $email, password:$password, confirmPassword:$confirmPassword) {
         name, email
         }
@@ -22,13 +22,13 @@ const cardstyle={
 }
 function Register(){
     const [form,setFormValues]=useState({
-        fName:"",
+        name:"",
         email:"",
         password:"",
         confirmPassword:""
     })
     let [error,setErrors]=useState({})
-    const [registerUser, { loading }] = useMutation(REGISTER_USER,{
+    const [register, { loading }] = useMutation(REGISTER_USER,{
         update(_,res){
             console.log(res)
         },
@@ -39,7 +39,7 @@ function Register(){
     });
     const submitForm= (e)=>{
         e.preventDefault()
-        registerUser({ form })
+        register({ form })
     }
     return (
         <Card className="register-card" style={cardstyle}>
@@ -48,14 +48,14 @@ function Register(){
                     <h1 className="text-center">Register</h1>
                     <Form onSubmit={submitForm}>
                         <Form.Group >
-                            <Form.Label className={error.fullName && 'text-danger' }>
-                            {error.fullName ?? 'Full Name'}
+                            <Form.Label className={error.name && 'text-danger' }>
+                            {error.name ?? 'Full Name'}
                             </Form.Label>
                             <Form.Control type="text" 
-                            value={form.fName}
-                            className={error.fullName && 'in-valid'}
+                            value={form.name}
+                            className={error.name && 'in-valid'}
                             onChange={(e)=>{
-                                setFormValues({...form,fName:e.target.value})
+                                setFormValues({...form,name:e.target.value})
                             }}  />
                         </Form.Group>
                         <Form.Group >
