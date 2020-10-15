@@ -107,6 +107,7 @@ module.exports={
                 if (emailId.trim()==='') error.email="email field must not be empty"
                 if (password.trim()==='') error.password="password field must not be empty"
                 if (confirmPassword.trim()==='') error.confirmPassword='Confirm password field must not empty'
+                
                 //check if the email exists
                 let result= await regUser.findOne({email:emailId}).exec()
                 if (result){
