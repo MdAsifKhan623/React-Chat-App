@@ -10,9 +10,10 @@ import {
 import { gql, useMutation } from '@apollo/client';
 
 const REGISTER_USER = gql`
-    mutation Register($name: String!, $email:String!, $password:String!, $confirmPassword:String!) {
-    register(name: $name, email: $email, password:$password, confirmPassword:$confirmPassword) {
-        name, email
+    mutation register($name: String!, $email:String!, $password:String!, $confirmPassword:String!) {
+        register(name: $name, email: $email, password:$password, confirmPassword:$confirmPassword) {
+            name
+            email
         }
     }
 `;
@@ -28,18 +29,19 @@ function Register(){
         confirmPassword:""
     })
     let [error,setErrors]=useState({})
-    const [register, { loading }] = useMutation(REGISTER_USER,{
+    const [registerUser, { loading }] = useMutation(REGISTER_USER,{
         update(_,res){
             console.log(res)
         },
         onError(err){
             console.log(err)
-            console.log(err.graphQLErrors[0].extensions)
+            console.log(err.graphQLErrors)
         }
     });
     const submitForm= (e)=>{
         e.preventDefault()
-        register({ form })
+        console.log(form)
+        registerUser({ form })
     }
     return (
         <Card className="register-card" style={cardstyle}>
