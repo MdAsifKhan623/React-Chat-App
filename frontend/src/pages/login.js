@@ -7,14 +7,15 @@ import {
     Card 
     } from 'react-bootstrap'
     
-import { gql, useMutation } from '@apollo/client';
+import { gql, useLazyQuery } from '@apollo/client';
 import {Link} from 'react-router-dom'
 
-const REGISTER_USER = gql`
-    mutation register($name: String!, $email:String!, $password:String!, $confirmPassword:String!) {
-        register(name: $name, email: $email, password:$password, confirmPassword:$confirmPassword) {
+const LOGIN_USER = gql`
+    query login($email:String!, $password:String!) {
+        login(email: $email, password:$password) {
             name
             email
+            token
         }
     }
 `;
@@ -22,28 +23,26 @@ const REGISTER_USER = gql`
 const cardstyle={
     border:"3px solid #19d3da",
 }
-function Register(props){
+function Login(props){
     const [variables,setVariables]=useState({
-        name:"",
         email:"",
         password:"",
-        confirmPassword:""
     })
     let [errors,setErrors]=useState({})
-    const [registerUser, { loading }] = useMutation(REGISTER_USER,{
-        update(_,__){
-            props.history.push('/login')
-        },
+    const [loginUser, { loading }] = useLazyQuery(LOGIN_USER,{
         onError(err){
             console.log(err)
-            console.log(err.graphQLErrors[0].extensions.error)
             setErrors(err.graphQLErrors[0].extensions.error)
             // console.log(errors)
+        },
+        onCompleted(data){
+            localStorage.setItem('token', data.login.token)
+            props.history.push('/')
         }
     });
     const submitForm= (e)=>{
         e.preventDefault()
-        registerUser({ variables })
+        loginUser({ variables })
     }
     return (
         <Card className="register-card" style={cardstyle}>
@@ -51,17 +50,6 @@ function Register(props){
                 <Col className="register-col">
                     <h1 className="text-center">Register</h1>
                     <Form onSubmit={submitForm}>
-                        <Form.Group >
-                            <Form.Label className={errors.name && 'text-danger' }>
-                            {errors.name ?? 'Full Name'}
-                            </Form.Label>
-                            <Form.Control type="text" 
-                            value={variables.name}
-                            className={errors.name && 'in-valid'}
-                            onChange={(e)=>{
-                                setVariables({...variables,name:e.target.value})
-                            }}  />
-                        </Form.Group>
                         <Form.Group >
                             <Form.Label className={errors.email && 'text-danger' }>
                                 {errors.email ?? 'Email'}
@@ -84,24 +72,13 @@ function Register(props){
                                 setVariables({...variables,password:e.target.value})
                             }} />
                         </Form.Group>
-                        <Form.Group >
-                            <Form.Label className={errors.confirmPassword && 'text-danger' }>
-                                {errors.confirmPassword ?? 'Confirm Password'}
-                            </Form.Label>
-                            <Form.Control type="password"
-                            value={variables.confirmPassword}
-                            className={errors.confirmPassword && 'in-valid'}
-                            onChange={(e)=>{
-                                setVariables({...variables,confirmPassword:e.target.value})
-                            }}  />
-                        </Form.Group>
                         <div className="text-center">
                         <Button variant="success" type="submit" disabled={loading}>
-                            {loading ? 'loading..':'Submit'}
+                            {loading ? 'loading..':'Login'}
                         </Button>
                         <br/>
                         <small>
-                            <p>Do you want to Login?</p> <Link to="/login">Login</Link>
+                            <p>Don't have an Account</p> <Link to="/register" >Register</Link>
                         </small>
                         </div>
                     </Form>
@@ -110,4 +87,4 @@ function Register(props){
         </Card>
     )
 }
-export default Register
+export default Login
