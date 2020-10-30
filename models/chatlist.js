@@ -8,6 +8,14 @@ const chartUsers= new mongoose.Schema({
 
 })
 
+const messages= new mongoose.Schema({
+    content:String,
+    uuid:String,
+    from:String,
+    to:String,
+    messageTime:String
+})
+
 const chatUser=mongoose.model('chatUser', chartUsers)
 const registerUser=new mongoose.Schema({
     name:String,
@@ -16,5 +24,7 @@ const registerUser=new mongoose.Schema({
     confirmPassword:String
 })
 
+const userMessage= mongoose.model ('userMessage', messages)
+
 const regUser=mongoose.model('regUser',registerUser)
-module.exports={chatUser,regUser}
+module.exports={chatUser,regUser, userMessage}

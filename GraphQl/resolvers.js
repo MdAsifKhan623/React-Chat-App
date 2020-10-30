@@ -1,7 +1,8 @@
-const {chatUser,regUser}=require('../models/chatlist')
+const {chatUser,regUser,userMessage}=require('../models/chatlist')
 const { UserInputError,AuthenticationError }=require('apollo-server')
 const jwt=require('jsonwebtoken')
 const { JWT_TOKEN }= require('../env.json')
+const { v4: uuidv4 }= require('uuid')
 
 module.exports={
     Query: {
@@ -19,24 +20,15 @@ module.exports={
           return users
       },
       users:() => chatUser.find(), 
-      registeredUsers: (_,__,context) =>{
-           console.log(context.req)
-           let allUsers=[]
+      registeredUsers: (_,__, { user } ) =>{
+           
+           console.log(user)
            try{
-
-            if (context.req && context.req.headers.authorization){
-                const token=context.req.headers.authorization.split('Bearer ')[1]
-                jwt.verify(token, JWT_TOKEN, (err, decodedToken)=>{
-                    if (err){
-                        throw new AuthenticationError("Unauthenticated Error")
-                    }
-                    else{
-                         allUsers=decodedToken
-                         console.log(allUsers)
-                    }
-                })
+            if (!user){
+                throw new AuthenticationError('Unauthenticated')
             }
-            let users=regUser.find({email:{$ne:allUsers.data.email}})
+            
+            let users=regUser.find({email:{$ne:user.data.email}})
             return users
            }catch(e){
                console.log(e)
@@ -130,6 +122,40 @@ module.exports={
             }catch(err){
                 console.log(err)
                 throw new UserInputError('Bad Input', {error:err})
+            }
+        },
+        sendMessage: async(parent, {to,content}, {user})=>{
+            try{
+                if (!user){
+                    throw new AuthenticationError('Unauthenticated')
+                }
+                let recipient1=""
+                regUser.findOne({email:to}, function (err, recipient) {
+                    recipient1=recipient.email
+                })
+                // console.log(recipient.email, user.data.email)
+                if (!recipient1){
+                    throw new UserInputError('User not Found')
+                }
+                else if (recipient1 === user.data.email){
+                    throw new UserInputError('Error! You cant message yourself ')
+                }
+
+                if (content.trim()===''){
+                    throw UserInputError('Please enter some messages to be sent!')
+                }
+                const newMessage= userMessage({
+                    uuid:uuidv4(),
+                    from: user.data.email,
+                    to,
+                    content,
+                    messageTime: new Date().toISOString()
+                })
+                // newMessage.save()
+                return newMessage
+            } catch(err){
+                console.log(err)
+                throw err
             }
         }
     }

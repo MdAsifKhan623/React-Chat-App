@@ -18,6 +18,14 @@ module.exports=gql`
     image:String!
   }
 
+  type Message{
+    uuid:String!
+    content:String!
+    from:String!
+    to:String!
+    messageTime:String!
+  }
+
   type usersRegister{
     name:String!
     email:String!
@@ -29,5 +37,6 @@ module.exports=gql`
     createUser(name:String!, email:String!, password:String!,image:String!): ChatUsers!
     register(name:String!, email:String!, password:String!, confirmPassword:String!):usersRegister! 
     removeUsers(email:String):usersRegister!
+    sendMessage(to:String!, content:String!): Message!
   }
 `;
