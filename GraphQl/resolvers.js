@@ -6,22 +6,37 @@ const { v4: uuidv4 }= require('uuid')
 
 module.exports={
     Query: {
-      getUsers:()=>{
-          const users=[
-              {
-                  username:"Asif",
-                  email:"mkhan135@fiu.edu"
-              },
-              {
-                  username: "Khan125",
-                  email:"mdasifk22@gmail.com"
-              },
-          ]
-          return users
-      },
+      
       users:() => chatUser.find(), 
+      fetchMessage: async(parent, {sender},{user})=>{
+        try{
+            console.log(user)
+            if (!user){
+                throw new AuthenticationError('Unauthenticated User')
+            }
+            const secondUser=await regUser.findOne({email:sender})
+            if (!secondUser){
+                throw new UserInputError('User not Found')
+            }
+            // const dummyMessage=await userMessage.find({
+            //     from:user
+            // })
+            // console.log(dummyMessage,'jkjk')
+            const messages=await userMessage.find({
+              $or:
+              [
+               {$and:[{from:sender},{to:user.data.email}]},
+               {$and:[{from:user.data.email},{to:sender}]}
+              ]
+            }).sort({messageTime:-1})
+
+            console.log(messages,'done')
+        }catch(err){
+            console.log(err)
+            throw err
+        }
+      },
       registeredUsers: (_,__, { user } ) =>{
-           
            console.log(user)
            try{
             if (!user){
@@ -72,7 +87,11 @@ module.exports={
         }
       }
     },
+
     Mutation:{
+        
+        //Register Mutation
+
         createUser:(_,{name,email,password,image})=>{
             const user= new chatUser({name,email,password,image})
             user.save();
@@ -124,23 +143,23 @@ module.exports={
                 throw new UserInputError('Bad Input', {error:err})
             }
         },
+
+        //Message Mutation
         sendMessage: async(parent, {to,content}, {user})=>{
+            var recipient1=''
             try{
                 if (!user){
                     throw new AuthenticationError('Unauthenticated')
                 }
-                let recipient1=""
-                regUser.findOne({email:to}, function (err, recipient) {
-                    recipient1=recipient.email
-                })
-                // console.log(recipient.email, user.data.email)
-                if (!recipient1){
-                    throw new UserInputError('User not Found')
+                recipient1=await regUser.findOne({email:to})
+                console.log("Hello-->",recipient1)
+                
+                if (recipient1===null){
+                    throw new UserInputError('User Not Found')
                 }
-                else if (recipient1 === user.data.email){
-                    throw new UserInputError('Error! You cant message yourself ')
+                else if (recipient1.email === user.data.email){
+                    throw new UserInputError('You cant message yourself!')
                 }
-
                 if (content.trim()===''){
                     throw UserInputError('Please enter some messages to be sent!')
                 }
@@ -151,8 +170,9 @@ module.exports={
                     content,
                     messageTime: new Date().toISOString()
                 })
-                // newMessage.save()
+                newMessage.save()
                 return newMessage
+
             } catch(err){
                 console.log(err)
                 throw err

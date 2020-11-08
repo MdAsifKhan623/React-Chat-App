@@ -9,6 +9,7 @@ module.exports=gql`
     users:[ChatUsers!]!
     registeredUsers:[usersRegister!]!
     login(email:String!, password:String!): usersRegister!
+    fetchMessage(sender:String!):[Message]!
   }
 
   type ChatUsers{
