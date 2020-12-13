@@ -18,10 +18,6 @@ module.exports={
             if (!secondUser){
                 throw new UserInputError('User not Found')
             }
-            // const dummyMessage=await userMessage.find({
-            //     from:user
-            // })
-            // console.log(dummyMessage,'jkjk')
             const messages=await userMessage.find({
               $or:
               [
