@@ -8,20 +8,23 @@ import Register from './pages/register'
 import Home from './pages/home'
 import Login from './pages/login'
 import ApolloProvider1 from './AppoloProvider'
+import {AuthProvider} from '../src/context/auth'
 
 
 function App(){
     return (
         <ApolloProvider1>
-            <Router>
-                <Container fluid>
-                    <Switch>
-                        <Route exact path="/" component={Home} />
-                        <Route exact path="/register" component={Register} />
-                        <Route exact path="/login" component={Login} />
-                    </Switch>
-                </Container>
-            </Router>
+            <AuthProvider>
+                <Router>
+                    <Container fluid>
+                        <Switch>
+                            <Route exact path="/" component={Home} />
+                            <Route exact path="/register" component={Register} />
+                            <Route exact path="/login" component={Login} />
+                        </Switch>
+                    </Container>
+                </Router>
+            </AuthProvider>
         </ApolloProvider1>
     )
 }

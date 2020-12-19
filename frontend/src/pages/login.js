@@ -9,6 +9,8 @@ import {
     
 import { gql, useLazyQuery } from '@apollo/client';
 import {Link} from 'react-router-dom'
+import {useAuthDispatch} from '../context/auth'
+
 
 const LOGIN_USER = gql`
     query login($email:String!, $password:String!) {
@@ -24,6 +26,9 @@ const cardstyle={
     border:"3px solid #19d3da",
 }
 function Login(props){
+
+    const dispatch= useAuthDispatch()
+
     const [variables,setVariables]=useState({
         email:"",
         password:"",
@@ -36,7 +41,8 @@ function Login(props){
             // console.log(errors)
         },
         onCompleted(data){
-            localStorage.setItem('token', data.login.token)
+            
+            dispatch({type:'LOGIN', payload:data.login})
             props.history.push('/')
         }
     });
