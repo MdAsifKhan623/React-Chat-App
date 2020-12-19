@@ -48,7 +48,7 @@ function Login(props){
         <Card className="register-card" style={cardstyle}>
             <Row className='p-5'>
                 <Col className="register-col">
-                    <h1 className="text-center">Register</h1>
+                    <h1 className="text-center">Login</h1>
                     <Form onSubmit={submitForm}>
                         <Form.Group >
                             <Form.Label className={errors.email && 'text-danger' }>
