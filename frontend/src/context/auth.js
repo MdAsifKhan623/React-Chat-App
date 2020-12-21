@@ -5,9 +5,16 @@ const AuthStateContext=createContext()
 const AuthDispatchContext=createContext()
 const token= localStorage.getItem('token')
 
+let user=null
 if (token){
     const decodeToken=jwtDecode(token)
     const timeExpires= new Date(decodeToken.exp * 1000)
+    if (new Date()>timeExpires){
+        localStorage.removeItem('token')
+    }
+    else{
+        user=decodeToken
+    }
     console.log(timeExpires)
 }else{
     console.log("There's no token ")
@@ -32,7 +39,7 @@ const authReducer=(state,action)=>{
 }
 
 export const AuthProvider=({children})=>{
-    const [state, dispatch]=useReducer(authReducer,{user:null})
+    const [state, dispatch]=useReducer(authReducer,{user})
 
     return (
         <AuthDispatchContext.Provider value={dispatch}>

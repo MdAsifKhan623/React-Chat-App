@@ -20,7 +20,8 @@ export default function Home ({history}){
                                 <Nav className="mr-auto">
                                 <Nav.Link href="/" className='tabs-section'>Home</Nav.Link>
                                 <Nav.Link href="/login" className='tabs-section'>Login</Nav.Link>
-                                <Nav.Link href="/register" onClick={logout} className='tabs-section'>Register</Nav.Link>
+                                <Nav.Link href="/register" className='tabs-section'>Register</Nav.Link>
+                                <button onClick={logout}>Logout</button>
                                 </Nav>
                                 <Form inline>
                                 <Nav.Link href='/about' className='tabs-section'>About</Nav.Link>
