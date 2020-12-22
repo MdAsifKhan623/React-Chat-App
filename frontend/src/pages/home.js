@@ -17,7 +17,6 @@ export default function Home ({history}){
         dispatch({type:'LOGOUT'})
         history.push('/login')
     }
-
     const {loading, data, error}= useQuery(GET_USERS)
     if (error){
         console.log(error)
