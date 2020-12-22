@@ -1,7 +1,15 @@
 import React from 'react'
 import {Row,Col,Navbar,Nav,Form, Container} from 'react-bootstrap'
 import {useAuthDispatch} from '../context/auth'
+import {gql, useQuery} from '@apollo/client'
 
+const GET_USERS=gql`
+    query registeredUsers{
+        registeredUsers{
+          email name
+        }
+      }
+`
 
 export default function Home ({history}){
     const dispatch = useAuthDispatch()
@@ -9,10 +17,33 @@ export default function Home ({history}){
         dispatch({type:'LOGOUT'})
         history.push('/login')
     }
+
+    const {loading, data, error}= useQuery(GET_USERS)
+    if (error){
+        console.log(error)
+    }
+
+    if (data){
+        console.log(data)
+    }
+    let usersTable
+    if (loading || !data){
+        usersTable=<p>Loading</p>
+    }
+    else if (data.registeredUsers.length==0){
+        usersTable=<p>No Users Yet</p>
+    }
+    else if (data.registeredUsers.length>0){
+        usersTable=data.registeredUsers.map(user=>(
+            <div key={user.email}>
+                <p>{user.name}</p>
+            </div>
+        ))
+
+    }
     return (
             <div>
             <Container fluid>
-                
                     <Row>
                         <Col>
                             <Navbar bg="dark" variant="dark" className="nav-header">
@@ -27,6 +58,14 @@ export default function Home ({history}){
                                 <Nav.Link href='/about' className='tabs-section'>About</Nav.Link>
                                 </Form>
                             </Navbar>
+                        </Col>
+                    </Row>
+                    <Row >
+                        <Col xs={4}>
+                            {usersTable}    
+                        </Col>
+                        <Col xs={8}>
+
                         </Col>
                     </Row>
             </Container>
