@@ -14,9 +14,10 @@ const GET_USERS=gql`
 export default function Home ({history}){
     const dispatch = useAuthDispatch()
     const logout=()=>{
-        dispatch({type:'LOGOUT'})
+        dispatch({type:'LOGOUT',payload:null})
         history.push('/login')
     }
+    
     const {loading, data, error}= useQuery(GET_USERS)
     if (error){
         console.log(error)

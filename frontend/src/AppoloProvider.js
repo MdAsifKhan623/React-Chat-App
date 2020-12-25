@@ -21,8 +21,6 @@ const authLink = setContext((_, { headers }) => {
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
-  // uri: 'http://localhost:4000/graphql',
-  // cache: new InMemoryCache()
 });
 
 export default function ApolloProvider1(props){

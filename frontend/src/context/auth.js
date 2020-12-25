@@ -9,6 +9,7 @@ let user=null
 if (token){
     const decodeToken=jwtDecode(token)
     const timeExpires= new Date(decodeToken.exp * 1000)
+    console.log(timeExpires)
     if (new Date()>timeExpires){
         localStorage.removeItem('token')
     }
@@ -22,12 +23,14 @@ if (token){
 const authReducer=(state,action)=>{
     switch(action.type){
         case 'LOGIN':
+            console.log('inside login')
             localStorage.setItem('token', action.payload.token)
             return {
                 ...state,
                 user:action.payload
             }
         case 'LOGOUT':
+            console.log('inside logout')
             localStorage.removeItem('token')
             return{
                 ...state,

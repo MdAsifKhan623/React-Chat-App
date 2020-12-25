@@ -10,7 +10,7 @@ module.exports={
       users:() => chatUser.find(), 
       fetchMessage: async(parent, {sender},{user})=>{
         try{
-            console.log(user)
+            // console.log(user)
             if (!user){
                 throw new AuthenticationError('Unauthenticated User')
             }
@@ -26,9 +26,9 @@ module.exports={
               ]
             }).sort({messageTime:-1})
 
-            console.log(messages,'done')
+            // console.log(messages,'done')
         }catch(err){
-            console.log(err)
+            // console.log(err)
             throw err
         }
       },
@@ -51,7 +51,7 @@ module.exports={
       login: async (_, args)=>{
         let error={}
         const {email,password}= args
-        console.log(args)
+        // console.log(args)
         try{
             if (email.trim()==='') error.email="user does not exist"
             if (password==='') error.password="Password can't be empty"
@@ -79,7 +79,7 @@ module.exports={
                 throw new UserInputError('User input error',{error})
             }
         }catch(e){
-            console.log(e)
+            // console.log(e)
             throw e
         }
       }

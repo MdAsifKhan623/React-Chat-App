@@ -38,10 +38,10 @@ function Login(props){
         onError(err){
             console.log(err)
             setErrors(err.graphQLErrors[0].extensions.error)
-            // console.log(errors)
         },
         onCompleted(data){
             dispatch({type:'LOGIN', payload:data.login})
+            // console.log(data.login)
             props.history.push('/')
         }
     });
