@@ -29,7 +29,7 @@ export default function Home ({history}){
     if (loading || !data){
         usersTable=<p>Loading</p>
     }
-    else if (data.registeredUsers.length==0){
+    else if (data.registeredUsers.length===0){
         usersTable=<p>No Users Yet</p>
     }
     else if (data.registeredUsers.length>0){

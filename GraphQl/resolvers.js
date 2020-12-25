@@ -40,6 +40,7 @@ module.exports={
             }
             
             let users=regUser.find({email:{$ne:user.data.email}})
+            console.log(users)
             return users
            }catch(e){
                console.log(e)
