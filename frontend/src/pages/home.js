@@ -2,6 +2,7 @@ import React from 'react'
 import {Row,Col,Navbar,Nav,Form, Container} from 'react-bootstrap'
 import {useAuthDispatch} from '../context/auth'
 import {gql, useQuery} from '@apollo/client'
+import {Redirect} from 'react-router-dom'
 
 const GET_USERS=gql`
     query registeredUsers{
@@ -11,19 +12,24 @@ const GET_USERS=gql`
       }
 `
 
-export default function Home ({history}){
+export default function Home (props){
     const dispatch = useAuthDispatch()
+    console.log('inside home section')
+    const token= localStorage.getItem('token')
     const logout=()=>{
         dispatch({type:'LOGOUT',payload:null})
-        history.push('/login')
+        // return <Redirect to="/login"/>
+        props.history.push('/login')
+        // history.push('/login')
     }
-    
+
     const {loading, data, error}= useQuery(GET_USERS)
     if (error){
         console.log(error)
     }
 
     if (data){
+        console.log(token)
         console.log(data)
     }
     let usersTable

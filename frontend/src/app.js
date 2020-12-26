@@ -1,9 +1,8 @@
 import React from 'react'
 import { Container } from 'react-bootstrap'
-
 import './css/app.scss'
 import './css/styles.css'
-import {BrowserRouter as Router, Switch} from 'react-router-dom'
+import {BrowserRouter as Router,Route, Switch} from 'react-router-dom'
 import Register from './pages/register'
 import Home from './pages/home'
 import Login from './pages/login'
@@ -18,9 +17,9 @@ function App(){
                 <Router>
                     <Container fluid>
                         <Switch>
-                            <NewDynamic exact path="/" component={Home} authenticated/>
-                            <NewDynamic exact path="/register" component={Register} guest/>
-                            <NewDynamic exact path="/login" component={Login} guest/>
+                            <Route exact path="/" component={Home} authenticated/>
+                            <Route exact path="/register" component={Register} guest/>
+                            <Route exact path="/login" component={Login} guest/>
                         </Switch>
                     </Container>
                 </Router>

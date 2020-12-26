@@ -41,7 +41,6 @@ function Login(props){
         },
         onCompleted(data){
             dispatch({type:'LOGIN', payload:data.login})
-            // console.log(data.login)
             props.history.push('/')
         }
     });
