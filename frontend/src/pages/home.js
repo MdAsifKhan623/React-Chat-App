@@ -20,7 +20,6 @@ export default function Home (props){
         dispatch({type:'LOGOUT',payload:null})
         // return <Redirect to="/login"/>
         props.history.push('/login')
-        // history.push('/login')
     }
 
     const {loading, data, error}= useQuery(GET_USERS)
