@@ -2,7 +2,7 @@ import React from 'react'
 import {Row,Col,Navbar,Nav,Form, Container} from 'react-bootstrap'
 import {useAuthDispatch} from '../context/auth'
 import {gql, useQuery} from '@apollo/client'
-import {Redirect} from 'react-router-dom'
+// import {Redirect} from 'react-router-dom'
 
 const GET_USERS=gql`
     query registeredUsers{
