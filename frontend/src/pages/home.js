@@ -18,7 +18,6 @@ export default function Home (props){
     const token= localStorage.getItem('token')
     const logout=()=>{
         dispatch({type:'LOGOUT',payload:null})
-        // return <Redirect to="/login"/>
         props.history.push('/login')
     }
 
