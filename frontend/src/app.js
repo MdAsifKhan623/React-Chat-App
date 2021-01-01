@@ -17,9 +17,9 @@ function App(){
                 <Router>
                     <Container fluid>
                         <Switch>
-                            <Route exact path="/" component={Home} authenticated/>
-                            <Route exact path="/register" component={Register} guest/>
-                            <Route exact path="/login" component={Login} guest/>
+                            <NewDynamic exact path="/" component={Home} authenticated="true" />
+                            <NewDynamic exact path="/register" component={Register} guest="true"/>
+                            <NewDynamic exact path="/login" component={Login} guest="true"/>
                         </Switch>
                     </Container>
                 </Router>

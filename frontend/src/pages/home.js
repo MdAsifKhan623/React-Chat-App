@@ -2,6 +2,8 @@ import React from 'react'
 import {Row,Col,Navbar,Nav,Form, Container} from 'react-bootstrap'
 import {useAuthDispatch} from '../context/auth'
 import {gql, useQuery} from '@apollo/client'
+import {Link} from 'react-router-dom'
+
 // import {Redirect} from 'react-router-dom'
 
 const GET_USERS=gql`
@@ -20,14 +22,13 @@ export default function Home (props){
         dispatch({type:'LOGOUT',payload:null})
         props.history.push('/login')
     }
-
     const {loading, data, error}= useQuery(GET_USERS)
     if (error){
         console.log(error)
     }
 
     if (data){
-        console.log(token)
+        // console.log(token)
         console.log(data)
     }
     let usersTable
@@ -56,7 +57,9 @@ export default function Home (props){
                                 <Nav.Link href="/" className='tabs-section'>Home</Nav.Link>
                                 <Nav.Link href="/login" className='tabs-section'>Login</Nav.Link>
                                 <Nav.Link href="/register" className='tabs-section'>Register</Nav.Link>
-                                <button onClick={logout}>Logout</button>
+                                <Nav.Link href="/login" onClick={logout} className='tabs-section'>Logout</Nav.Link>
+                                {/* <button onClick={logout}>Logout</button> */}
+
                                 </Nav>
                                 <Form inline>
                                 <Nav.Link href='/about' className='tabs-section'>About</Nav.Link>

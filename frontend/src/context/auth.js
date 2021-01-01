@@ -24,6 +24,7 @@ const authReducer=(state,action)=>{
         case 'LOGIN':
             console.log('inside login')
             localStorage.setItem('token', action.payload.token)
+            console.log(localStorage.getItem('token'))
             return {
                 ...state,
                 user:action.payload
@@ -31,6 +32,7 @@ const authReducer=(state,action)=>{
         case 'LOGOUT':
             console.log('inside logout')
             localStorage.removeItem('token')
+            console.log(localStorage.getItem('token'))
             return{
                 ...state,
                 user:null
