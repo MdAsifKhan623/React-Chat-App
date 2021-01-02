@@ -2,9 +2,6 @@ import React from 'react'
 import {Row,Col,Navbar,Nav,Form, Container} from 'react-bootstrap'
 import {useAuthDispatch} from '../context/auth'
 import {gql, useQuery} from '@apollo/client'
-import {Link} from 'react-router-dom'
-
-// import {Redirect} from 'react-router-dom'
 
 const GET_USERS=gql`
     query registeredUsers{
@@ -16,8 +13,6 @@ const GET_USERS=gql`
 
 export default function Home (props){
     const dispatch = useAuthDispatch()
-    console.log('inside home section')
-    const token= localStorage.getItem('token')
     const logout=()=>{
         dispatch({type:'LOGOUT',payload:null})
         props.history.push('/login')
@@ -28,7 +23,6 @@ export default function Home (props){
     }
 
     if (data){
-        // console.log(token)
         console.log(data)
     }
     let usersTable
@@ -42,6 +36,7 @@ export default function Home (props){
         usersTable=data.registeredUsers.map(user=>(
             <div key={user.email}>
                 <p>{user.name}</p>
+                <hr/>
             </div>
         ))
 
@@ -58,7 +53,6 @@ export default function Home (props){
                                 <Nav.Link href="/login" className='tabs-section'>Login</Nav.Link>
                                 <Nav.Link href="/register" className='tabs-section'>Register</Nav.Link>
                                 <Nav.Link href="/login" onClick={logout} className='tabs-section'>Logout</Nav.Link>
-                                {/* <button onClick={logout}>Logout</button> */}
 
                                 </Nav>
                                 <Form inline>
@@ -69,10 +63,12 @@ export default function Home (props){
                     </Row>
                     <Row >
                         <Col xs={4}>
+                            <center>Participants</center>
+                            <i className="fas fa-user-friends"></i>
                             {usersTable}    
                         </Col>
                         <Col xs={8}>
-
+                            <center>Messages</center>
                         </Col>
                     </Row>
             </Container>

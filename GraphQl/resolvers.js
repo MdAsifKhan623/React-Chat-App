@@ -51,7 +51,7 @@ module.exports={
       login: async (_, args)=>{
         let error={}
         const {email,password}= args
-        // console.log(args)
+        
         try{
             if (email.trim()==='') error.email="user does not exist"
             if (password==='') error.password="Password can't be empty"

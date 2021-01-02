@@ -35,10 +35,8 @@ function Register(props){
             props.history.push('/login')
         },
         onError(err){
-            console.log(err)
             console.log(err.graphQLErrors[0].extensions.error)
             setErrors(err.graphQLErrors[0].extensions.error)
-            // console.log(errors)
         }
     });
     const submitForm= (e)=>{

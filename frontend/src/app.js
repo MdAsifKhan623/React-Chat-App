@@ -1,5 +1,4 @@
 import React from 'react'
-import { Container } from 'react-bootstrap'
 import './css/app.scss'
 import './css/styles.css'
 import {BrowserRouter as Router,Route, Switch} from 'react-router-dom'
@@ -15,13 +14,11 @@ function App(){
         <ApolloProvider1>
             <AuthProvider>
                 <Router>
-                    <Container fluid>
                         <Switch>
                             <NewDynamic exact path="/" component={Home} authenticated="true" />
                             <NewDynamic exact path="/register" component={Register} guest="true"/>
                             <NewDynamic exact path="/login" component={Login} guest="true"/>
                         </Switch>
-                    </Container>
                 </Router>
             </AuthProvider>
         </ApolloProvider1>

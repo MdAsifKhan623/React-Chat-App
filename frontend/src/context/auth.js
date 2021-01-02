@@ -22,17 +22,13 @@ if (token){
 const authReducer=(state,action)=>{
     switch(action.type){
         case 'LOGIN':
-            console.log('inside login')
             localStorage.setItem('token', action.payload.token)
-            console.log(localStorage.getItem('token'))
             return {
                 ...state,
                 user:action.payload
             }
         case 'LOGOUT':
-            console.log('inside logout')
             localStorage.removeItem('token')
-            console.log(localStorage.getItem('token'))
             return{
                 ...state,
                 user:null
