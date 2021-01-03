@@ -26,7 +26,7 @@ module.exports={
               ]
             }).sort({messageTime:-1})
 
-            // console.log(messages,'done')
+            console.log(messages,'done')
         }catch(err){
             // console.log(err)
             throw err
@@ -40,7 +40,15 @@ module.exports={
             }
             
             let users=regUser.find({email:{$ne:user.data.email}})
-            console.log(users)
+            let allmessages=userMessage.find({
+                $or:[{from:user.data.email},{to:user.data.email}]
+            })
+            // .sort({messageTime: 'desc'}).exec(function(err, docs) { 
+            //     if(err){
+            //         console.log(err)
+            //     }
+            //  })
+             console.log(allmessages,users)
             return users
            }catch(e){
                console.log(e)

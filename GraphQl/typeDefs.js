@@ -33,6 +33,8 @@ module.exports=gql`
     password:String
     confirmPassword:String!
     token:String
+    image:String!
+    latestMessage:Message
   }
   type Mutation{
     createUser(name:String!, email:String!, password:String!,image:String!): ChatUsers!
