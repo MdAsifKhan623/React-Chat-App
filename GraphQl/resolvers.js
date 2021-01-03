@@ -32,7 +32,7 @@ module.exports={
             throw err
         }
       },
-      registeredUsers: (_,__, { user } ) =>{
+      registeredUsers: async(_,__, { user } ) =>{
            console.log(user)
            try{
             if (!user){
@@ -40,15 +40,18 @@ module.exports={
             }
             
             let users=regUser.find({email:{$ne:user.data.email}})
-            let allmessages=userMessage.find({
+            let allmessages=await userMessage.find({
                 $or:[{from:user.data.email},{to:user.data.email}]
+            }).sort({messageTime: -1})
+
+
+            console.log(users)
+            users=users.map((eachUser)=>{
+                // console.log(eachUser.email)
+                const latestMessage=allmessages.find((me)=>(me.from===eachUser.email || me.to === eachUser.email))
+                eachUser.latestMessage=latestMessage
+                return eachUser
             })
-            // .sort({messageTime: 'desc'}).exec(function(err, docs) { 
-            //     if(err){
-            //         console.log(err)
-            //     }
-            //  })
-             console.log(allmessages,users)
             return users
            }catch(e){
                console.log(e)
