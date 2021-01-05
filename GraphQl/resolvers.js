@@ -10,7 +10,6 @@ module.exports={
       users:() => chatUser.find(), 
       fetchMessage: async(parent, {sender},{user})=>{
         try{
-            // console.log(user)
             if (!user){
                 throw new AuthenticationError('Unauthenticated User')
             }
@@ -33,7 +32,6 @@ module.exports={
         }
       },
       registeredUsers: async(_,__, { user } ) =>{
-           console.log(user)
            try{
             if (!user){
                 throw new AuthenticationError('Unauthenticated')
@@ -45,11 +43,13 @@ module.exports={
             }).sort({messageTime: -1})
 
 
-            console.log(users)
             users=users.map((eachUser)=>{
-                const latestMessage=allmessages.find((me)=>(me.from===eachUser.email || me.to === eachUser.email))
-                eachUser.latestMessage=latestMessage
-                return eachUser
+                users=eachUser.map((usr)=>{
+                    const latestMessage=allmessages.find((me)=>(me.from===usr.email || me.to === usr.email))
+                    usr.latestMessage=latestMessage
+                    return usr
+                })
+                return users
             })
             return users
            }catch(e){
