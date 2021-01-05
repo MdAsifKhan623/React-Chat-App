@@ -47,7 +47,6 @@ module.exports={
 
             console.log(users)
             users=users.map((eachUser)=>{
-                // console.log(eachUser.email)
                 const latestMessage=allmessages.find((me)=>(me.from===eachUser.email || me.to === eachUser.email))
                 eachUser.latestMessage=latestMessage
                 return eachUser
