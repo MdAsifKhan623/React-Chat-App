@@ -1,7 +1,7 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import {Row,Col,Navbar,Nav,Form, Container,Image} from 'react-bootstrap'
 import {useAuthDispatch} from '../context/auth'
-import {gql, useQuery} from '@apollo/client'
+import {gql, useQuery, useLazyQuery} from '@apollo/client'
 
 const GET_USERS=gql`
     query registeredUsers{
@@ -13,10 +13,25 @@ const GET_USERS=gql`
           }
       }
 `
+const GET_MESSAGE=gql`
+      query fetchMessage($sender:String!){
+        fetchMessage(sender:$sender){
+        from to content
+        }
+      }
+`
 
 export default function Home (props){
     const dispatch = useAuthDispatch()
+    const [userSelected, setUserSelected]= useState(null)
     const imageUrl="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+    
+    useEffect(() => {
+        effect
+        return () => {
+            cleanup
+        }
+    }, [input])
     const logout=()=>{
         dispatch({type:'LOGOUT',payload:null})
         props.history.push('/login')
@@ -38,7 +53,7 @@ export default function Home (props){
     }
     else if (data.registeredUsers.length>0){
         usersTable=data.registeredUsers.map(user=>(
-            <div className="d-flex p-3" key={user.email}>
+            <div className="d-flex p-3" key={user.email} onClick={()=> setUserSelected(user.email)}>
                 <Image src={imageUrl} roundedCircle className="mr-2" 
                     style={{width:50, height:50,objectFit:'cover'}}
                 />
