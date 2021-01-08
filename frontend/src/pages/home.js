@@ -96,6 +96,11 @@ export default function Home (props){
                         </Col>
                         <Col xs={8}>
                             <center>Messages</center>
+                            {messageData && messageData.fetchMessage.length>0 ? (
+                                messageData.fetchMessage.map(message=>(
+                                    <p key={message.uuid}>{message.content}</p>
+                                ))
+                            ):'No Messages yet! Start the Conversation'}
                         </Col>
                     </Row>
             </Container>
