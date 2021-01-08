@@ -26,24 +26,24 @@ export default function Home (props){
     const [userSelected, setUserSelected]= useState(null)
     const imageUrl="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
     
+    const [fetchMessage,{loading:loadingMessages,data:messageData}]=useLazyQuery(GET_MESSAGE)
+
     useEffect(() => {
-        effect
-        return () => {
-            cleanup
+        if (userSelected){
+            console.log(userSelected)
+            fetchMessage({variables:{sender:userSelected}})
         }
-    }, [input])
+    }, [userSelected])
+
+    if (messageData){
+        console.log(messageData.fetchMessage)
+    }
     const logout=()=>{
         dispatch({type:'LOGOUT',payload:null})
         props.history.push('/login')
     }
     const {loading, data, error}= useQuery(GET_USERS)
-    if (error){
-        console.log(error)
-    }
 
-    if (data){
-        console.log(data)
-    }
     let usersTable
     if (loading || !data){
         usersTable=<p>Loading</p>
@@ -58,7 +58,7 @@ export default function Home (props){
                     style={{width:50, height:50,objectFit:'cover'}}
                 />
                 <div>
-                    <p classsName="text-success" style={{marginBottom:0}}>{user.name}</p>
+                    <p className="text-success" style={{marginBottom:0}}>{user.name}</p>
                     <p className="font-weight-light m-0">
                         {user.latestMessage ? user.latestMessage.content :"Welcome to the chat!"} 
                     </p>
