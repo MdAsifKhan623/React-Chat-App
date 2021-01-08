@@ -30,7 +30,6 @@ export default function Home (props){
 
     useEffect(() => {
         if (userSelected){
-            console.log(userSelected)
             fetchMessage({variables:{sender:userSelected}})
         }
     }, [userSelected])

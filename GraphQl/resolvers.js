@@ -26,8 +26,8 @@ module.exports={
             }).sort({messageTime:-1})
 
             console.log(messages,'done')
+            return messages
         }catch(err){
-            // console.log(err)
             throw err
         }
       },
