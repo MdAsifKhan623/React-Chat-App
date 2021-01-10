@@ -29,8 +29,9 @@ export default function Home (props){
     const logout=()=>{
         dispatch({type:'LOGOUT',payload:null})
         props.history.push('/login')
+        window.location.href='/login'
     }
-    
+
     return (
             <div>
             <Container fluid>
@@ -53,13 +54,24 @@ export default function Home (props){
                     </Row>
                     <Row >
                         <ChatUsers setUserSelected={setUserSelected} selectedUser={userSelected}/>
-                        <Col xs={8}>
-                            <center>Messages</center>
-                            {messageData && messageData.fetchMessage.length>0 ? (
-                                messageData.fetchMessage.map(message=>(
-                                    <p key={message.uuid}>{message.content}</p>
-                                ))
+                        <Col xs={8} className="message-section d-flex flex-column-reverse">
+                            {messageData && messageData.fetchMessage.length>0 ?  ( 
+                                    messageData.fetchMessage.map(message=>(    
+                                        message.from===userSelected? (
+                                            <div className="d-flex my-3 mr-auto">
+                                                <div className="py-2 px-3 rounded-pill bg-primary">
+                                                    <p className="text-white" key={message.uuid}>{message.content}</p>
+                                                </div>
+                                            </div>):(
+                                            <div className="d-flex my-3 ml-auto">
+                                                <div className="py-2 px-3 rounded-pill bg-secondary">
+                                                    <p className="text-white" key={message.uuid}>{message.content}</p>
+                                                </div>
+                                            </div>)                   
+                                        
+                                    ))
                             ):'No Messages yet! Start the Conversation'}
+                            
                         </Col>
                     </Row>
             </Container>

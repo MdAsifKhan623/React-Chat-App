@@ -9,3 +9,7 @@
 .selected-div:hover{
     background-color: aliceblue;
 }
+.message-section{
+    height:700px;
+    overflow-y: scroll;
+}
