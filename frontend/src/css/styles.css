@@ -6,3 +6,6 @@
 .register-col{
     width:100px;
 }
+.selected-div:hover{
+    background-color: aliceblue;
+}
