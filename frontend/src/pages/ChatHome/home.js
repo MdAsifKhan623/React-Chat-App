@@ -56,16 +56,16 @@ export default function Home (props){
                         <ChatUsers setUserSelected={setUserSelected} selectedUser={userSelected}/>
                         <Col xs={8} className="message-section d-flex flex-column-reverse">
                             {messageData && messageData.fetchMessage.length>0 ?  ( 
-                                    messageData.fetchMessage.map(message=>(    
+                                    messageData.fetchMessage.map((message)=>(    
                                         message.from===userSelected? (
                                             <div className="d-flex my-3 mr-auto">
                                                 <div className="py-2 px-3 rounded-pill bg-primary">
-                                                    <p className="text-white" key={message.uuid}>{message.content}</p>
+                                                    <p className="text-white " key={message.uuid}>{message.content}</p>
                                                 </div>
                                             </div>):(
                                             <div className="d-flex my-3 ml-auto">
                                                 <div className="py-2 px-3 rounded-pill bg-secondary">
-                                                    <p className="text-white" key={message.uuid}>{message.content}</p>
+                                                    <p className="text-white " key={message.uuid}>{message.content}</p>
                                                 </div>
                                             </div>)                   
                                         
