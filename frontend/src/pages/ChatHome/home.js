@@ -8,7 +8,7 @@ import ChatUsers from './ChatUsers'
 const GET_MESSAGE=gql`
       query fetchMessage($sender:String!){
         fetchMessage(sender:$sender){
-        from to content
+        from to content messageTime
         }
       }
 `
