@@ -10,8 +10,11 @@
     background-color: aliceblue;
 }
 .message-section{
-    height:700px;
+    height:600px;
     overflow-y: scroll;
+}
+.message-section::-webkit-scrollbar{
+    display: grid;
 }
 
 

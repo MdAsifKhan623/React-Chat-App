@@ -16,7 +16,7 @@ const GET_MESSAGE=gql`
 export default function Home (props){
     const dispatch = useAuthDispatch()
     const [userSelected, setUserSelected]= useState(null)
-    
+    const [content,setContent]=useState('')
     
     const [fetchMessage,{loading:loadingMessages,data:messageData}]=useLazyQuery(GET_MESSAGE)
 
@@ -30,6 +30,10 @@ export default function Home (props){
         dispatch({type:'LOGOUT',payload:null})
         props.history.push('/login')
         window.location.href='/login'
+    }
+
+    const submitMessage=()=>{
+
     }
 
     return (
@@ -54,23 +58,51 @@ export default function Home (props){
                     </Row>
                     <Row >
                         <ChatUsers setUserSelected={setUserSelected} selectedUser={userSelected}/>
-                        <Col xs={8} className="message-section d-flex flex-column-reverse">
-                            {messageData && messageData.fetchMessage.length>0 ?  ( 
-                                    messageData.fetchMessage.map((message)=>(    
-                                        message.from===userSelected? (
-                                            <div className="d-flex my-3 mr-auto">
-                                                <div className="py-2 px-3 rounded-pill bg-primary">
-                                                    <p className="text-white " key={message.uuid}>{message.content}</p>
+                        <Col xs={10} md={8} >
+                            <div className="message-section d-flex flex-column-reverse">
+                                {messageData && messageData.fetchMessage.length>0 ?  ( 
+                                        messageData.fetchMessage.map((message)=>(    
+                                            message.from===userSelected? (
+                                                <div className=" mr-auto">
+                                                    <div className="d-flex my-3">
+                                                        <div className="py-2 px-3 rounded-pill bg-primary">
+                                                            <p className="text-white " key={message.uuid}>{message.content}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        {new Date(message.messageTime).toLocaleString()}
+                                                    </div>
                                                 </div>
-                                            </div>):(
-                                            <div className="d-flex my-3 ml-auto">
-                                                <div className="py-2 px-3 rounded-pill bg-secondary">
-                                                    <p className="text-white " key={message.uuid}>{message.content}</p>
-                                                </div>
-                                            </div>)                   
-                                        
-                                    ))
-                            ):'No Messages yet! Start the Conversation'}
+                                                    
+                                                ):(
+
+                                                <div className=" ml-auto">
+                                                    <div className="d-flex my-3">
+                                                        <div className="py-2 px-3 rounded-pill bg-secondary">
+                                                            <p className="text-white " key={message.uuid}>{message.content}</p>
+                                                        </div>
+                                                    </div>
+                                                   <div>
+                                                        {new Date(message.messageTime).toLocaleString()}
+                                                   </div> 
+                                                </div>)                   
+                                            
+                                        ))
+                                ):'No Messages yet! Start the Conversation'}
+                            </div>
+                            {userSelected && <div>
+                                <Form onSubmit={submitMessage}>
+                                    <Form.Group>
+                                        <Form.Control 
+                                        type="text"
+                                        className="message-input rounded-pill border-1"
+                                        placeholder="Type a Message."
+                                        value={content}
+                                        onChange={(e)=>setContent(e.target.value)}
+                                         />
+                                    </Form.Group>
+                                </Form>
+                            </div>}
                             
                         </Col>
                     </Row>

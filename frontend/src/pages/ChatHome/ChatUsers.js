@@ -35,8 +35,8 @@ export default function ChatUsers({setUserSelected, selectedUser}) {
                     })} key={user.email} onClick={()=> setUserSelected(user.email)}>
                     <Image src={imageUrl} roundedCircle className="mr-2" 
                     style={{width:50, height:50,objectFit:'cover'}}
-                />
-                <div>
+                    />
+                <div className="d-none d-md-block">
                     <p className="text-success" style={{marginBottom:0}}>{user.name}</p>
                     <p className="font-weight-light m-0">
                         {user.latestMessage ? user.latestMessage.content :"Welcome to the chat!"} 
@@ -49,7 +49,7 @@ export default function ChatUsers({setUserSelected, selectedUser}) {
 
     }
     return (
-        <Col xs={4} className="px-0" style={{backgroundColor:'#e7d9ea'}}> 
+        <Col xs={2} md={4} className="px-0" style={{backgroundColor:'#e7d9ea'}}> 
             <center>Participants</center>
             <i className="fas fa-user-friends"></i>
             {usersTable}    
