@@ -16,5 +16,14 @@
 .message-section::-webkit-scrollbar{
     display: grid;
 }
+.not-connected{
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: bolder;
+    font-style: sans-serif;
+}
+.ip-field{
+    background-color: #dfe0df;
+}
 
 

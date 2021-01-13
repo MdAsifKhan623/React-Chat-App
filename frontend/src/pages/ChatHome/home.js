@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import {Row,Col,Navbar,Nav,Form, Container} from 'react-bootstrap'
 import {useAuthDispatch} from '../../context/auth'
-import {gql, useLazyQuery} from '@apollo/client'
+import {gql, useLazyQuery,useMutation} from '@apollo/client'
 import ChatUsers from './ChatUsers'
 
 
@@ -12,6 +12,13 @@ const GET_MESSAGE=gql`
         }
       }
 `
+const SEND_MESSAGE=gql`
+      mutation sendMessage($to:String!,$content:String!){
+          sendMessage(to:$to,content:$content){
+              uuid,from,to,content
+          }
+      }
+`
 
 export default function Home (props){
     const dispatch = useAuthDispatch()
@@ -19,6 +26,12 @@ export default function Home (props){
     const [content,setContent]=useState('')
     
     const [fetchMessage,{loading:loadingMessages,data:messageData}]=useLazyQuery(GET_MESSAGE)
+
+    const [sendMessage]=useMutation(SEND_MESSAGE,{
+        // onCompleted: data=>
+        onError: err=> console.log(err)
+
+    })
 
     useEffect(() => {
         if (userSelected){
@@ -32,8 +45,15 @@ export default function Home (props){
         window.location.href='/login'
     }
 
-    const submitMessage=()=>{
+    const submitMessage=(e)=>{
+        e.preventDefault()
+        if (content===''){
+            return
+        }
+        setContent('')
+        
 
+        console.log('hello everybody')
     }
 
     return (
@@ -88,20 +108,25 @@ export default function Home (props){
                                                 </div>)                   
                                             
                                         ))
-                                ):'No Messages yet! Start the Conversation'}
+                                ):<div className="not-connected" style={{color:'#556052'}}>No Messages yet! Start the Conversation</div>}
                             </div>
                             {userSelected && <div>
-                                <Form onSubmit={submitMessage}>
-                                    <Form.Group>
+                                <Form onSubmit={submitMessage} >
+                                    <Form.Group className="d-flex align-items-center">
                                         <Form.Control 
                                         type="text"
-                                        className="message-input rounded-pill border-1"
+                                        className="message-input ip-field rounded-pill border-5"
                                         placeholder="Type a Message."
                                         value={content}
+                                        style={{backgroundColor:'#dfe0df'}}
                                         onChange={(e)=>setContent(e.target.value)}
                                          />
+                                         <i className="far fa-paper-plane fa-2x ml-2" onClick={submitMessage}></i>
+
                                     </Form.Group>
                                 </Form>
+                                
+
                             </div>}
                             
                         </Col>
