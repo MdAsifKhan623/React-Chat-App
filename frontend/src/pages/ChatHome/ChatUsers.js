@@ -50,8 +50,8 @@ export default function ChatUsers({setUserSelected, selectedUser}) {
     }
     return (
         <Col xs={2} md={4} className="px-0" style={{backgroundColor:'#e7d9ea'}}> 
-            <center>Participants</center>
-            <i className="fas fa-user-friends"></i>
+            <center><i className="fas fa-user-friends fa-2x mt-2"></i></center>
+            
             {usersTable}    
         </Col>
     )
