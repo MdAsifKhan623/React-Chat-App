@@ -28,7 +28,7 @@ export default function Home (props){
     const [fetchMessage,{loading:loadingMessages,data:messageData}]=useLazyQuery(GET_MESSAGE)
 
     const [sendMessage]=useMutation(SEND_MESSAGE,{
-        // onCompleted: data=>
+        refetchQueries:resultMutation=>[{query:GET_MESSAGE, variables:{sender:userSelected}}],
         onError: err=> console.log(err)
 
     })
@@ -50,10 +50,8 @@ export default function Home (props){
         if (content===''){
             return
         }
+        sendMessage({variables:{to:userSelected, content:content}})
         setContent('')
-        
-
-        console.log('hello everybody')
     }
 
     return (
@@ -126,7 +124,6 @@ export default function Home (props){
                                     </Form.Group>
                                 </Form>
                                 
-
                             </div>}
                             
                         </Col>
