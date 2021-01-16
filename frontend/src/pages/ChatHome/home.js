@@ -4,7 +4,6 @@ import {useAuthDispatch} from '../../context/auth'
 import {gql, useLazyQuery,useMutation} from '@apollo/client'
 import ChatUsers from './ChatUsers'
 
-
 const GET_MESSAGE=gql`
       query fetchMessage($sender:String!){
         fetchMessage(sender:$sender){
@@ -47,7 +46,7 @@ export default function Home (props){
 
     const submitMessage=(e)=>{
         e.preventDefault()
-        if (content===''){
+        if (content.trim() ===''){
             return
         }
         sendMessage({variables:{to:userSelected, content:content}})
@@ -58,7 +57,7 @@ export default function Home (props){
             <div>
             <Container fluid>
                     <Row>
-                        <Col>
+                        <Col >
                             <Navbar bg="dark" variant="dark" className="nav-header">
                                 <Navbar.Brand href="/" style={{"fontFamily":"sans-serif"}}>Chat App</Navbar.Brand>
                                 <Nav className="mr-auto">
@@ -77,17 +76,17 @@ export default function Home (props){
                     <Row >
                         <ChatUsers setUserSelected={setUserSelected} selectedUser={userSelected}/>
                         <Col xs={10} md={8} >
-                            <div className="message-section d-flex flex-column-reverse">
+                            <div className="message-section d-flex flex-column-reverse" >
                                 {messageData && messageData.fetchMessage.length>0 ?  ( 
                                         messageData.fetchMessage.map((message)=>(    
                                             message.from===userSelected? (
                                                 <div className=" mr-auto">
                                                     <div className="d-flex my-3">
-                                                        <div className="py-2 px-3 rounded-pill bg-primary">
+                                                        <div className="py-2 px-3 w-20 rounded-pill bg-primary">
                                                             <p className="text-white " key={message.uuid}>{message.content}</p>
                                                         </div>
                                                     </div>
-                                                    <div>
+                                                    <div className="time-clock">
                                                         {new Date(message.messageTime).toLocaleString()}
                                                     </div>
                                                 </div>
@@ -96,11 +95,11 @@ export default function Home (props){
 
                                                 <div className=" ml-auto">
                                                     <div className="d-flex my-3">
-                                                        <div className="py-2 px-3 rounded-pill bg-secondary">
+                                                        <div className="py-2 px-3 rounded-pill bg-success">
                                                             <p className="text-white " key={message.uuid}>{message.content}</p>
                                                         </div>
                                                     </div>
-                                                   <div>
+                                                   <div className="time-clock">
                                                         {new Date(message.messageTime).toLocaleString()}
                                                    </div> 
                                                 </div>)                   
@@ -110,10 +109,10 @@ export default function Home (props){
                             </div>
                             {userSelected && <div>
                                 <Form onSubmit={submitMessage} >
-                                    <Form.Group className="d-flex align-items-center">
+                                    <Form.Group className="d-flex pt-3 align-items-center">
                                         <Form.Control 
                                         type="text"
-                                        className="message-input ip-field rounded-pill border-5"
+                                        className="message-input p-4 ip-field rounded-pill border-5"
                                         placeholder="Type a Message."
                                         value={content}
                                         style={{backgroundColor:'#dfe0df'}}
