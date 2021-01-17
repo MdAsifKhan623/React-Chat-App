@@ -110,6 +110,7 @@ export default function Home (props){
                             {userSelected && <div>
                                 <Form onSubmit={submitMessage} >
                                     <Form.Group className="d-flex pt-3 align-items-center">
+                                        
                                         <Form.Control 
                                         type="text"
                                         className="message-input p-4 ip-field rounded-pill border-5"
@@ -118,8 +119,8 @@ export default function Home (props){
                                         style={{backgroundColor:'#dfe0df'}}
                                         onChange={(e)=>setContent(e.target.value)}
                                          />
-                                         <i className="far fa-paper-plane fa-2x ml-2" onClick={submitMessage}></i>
 
+                                         <i className="far fa-paper-plane fa-2x ml-2" onClick={submitMessage}></i>
                                     </Form.Group>
                                 </Form>
                                 
