@@ -3,6 +3,9 @@ const { UserInputError,AuthenticationError }=require('apollo-server')
 const jwt=require('jsonwebtoken')
 const { JWT_TOKEN }= require('../env.json')
 const { v4: uuidv4 }= require('uuid')
+const {PubSub} = require('apollo-server')
+
+const pubsub= new PubSub()
 
 module.exports={
     Query: {
@@ -177,12 +180,15 @@ module.exports={
                     messageTime: new Date().toISOString()
                 })
                 newMessage.save()
+                pubsub.publish('NEW_MESSAGE',{nMessage:newMessage})
                 return newMessage
 
             } catch(err){
                 console.log(err)
                 throw err
             }
-        }
-    }
+        },
+        
+    },
+    
   };

@@ -42,4 +42,7 @@ module.exports=gql`
     removeUsers(email:String):usersRegister!
     sendMessage(to:String!, content:String!): Message!
   }
+  type Subscription{
+    nMessage:Message!
+  }
 `;
