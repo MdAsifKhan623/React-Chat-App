@@ -1,9 +1,7 @@
 const {regUser,userMessage}=require('../../models/chatlist')
 const {UserInputError,AuthenticationError}=require('apollo-server')
 const { v4: uuidv4 }= require('uuid')
-const {PubSub} = require('apollo-server')
 
-const pubsub= new PubSub()
 
 module.exports={
     Query:{
@@ -31,7 +29,7 @@ module.exports={
           },
     },
     Mutation:{
-        sendMessage: async(parent, {to,content}, {user})=>{
+        sendMessage: async(parent, {to,content}, {user, pubsub})=>{
             var recipient1=''
             try{
                 if (!user){
@@ -67,7 +65,12 @@ module.exports={
     },
     Subscription:{
         nMessage:{
-            subscribe:()=> pubsub.asyncIterator(['NEW_MESSAGE'])
+            subscribe:(_,__,{pubsub,user})=> {
+                if (!user){
+                    throw new AuthenticationError('Unauthenticated')
+                }
+                return pubsub.asyncIterator(['NEW_MESSAGE'])
+            }
         }
     }
 }
