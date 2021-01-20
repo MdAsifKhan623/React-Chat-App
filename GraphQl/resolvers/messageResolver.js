@@ -66,8 +66,9 @@ module.exports={
     Subscription:{
         nMessage:{
             subscribe:(_,__,{pubsub,user})=> {
+                console.log(pubsub)
                 if (!user){
-                    throw new AuthenticationError('Unauthenticated')
+                    throw new AuthenticationError('Unauthenticated ggj')
                 }
                 return pubsub.asyncIterator(['NEW_MESSAGE'])
             }
