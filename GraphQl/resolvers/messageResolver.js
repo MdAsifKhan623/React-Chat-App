@@ -1,5 +1,5 @@
 const {regUser,userMessage}=require('../../models/chatlist')
-const {UserInputError,AuthenticationError}=require('apollo-server')
+const {UserInputError,AuthenticationError,withFilter}=require('apollo-server')
 const { v4: uuidv4 }= require('uuid')
 
 
@@ -65,13 +65,17 @@ module.exports={
     },
     Subscription:{
         nMessage:{
-            subscribe:(_,__,{pubsub,user})=> {
-                console.log(pubsub,user)
+            subscribe:withFilter((_,__,{pubsub,user})=> {
                 if (!user){
                     throw new AuthenticationError('Unauthenticated ggj')
                 }
                 return pubsub.asyncIterator(['NEW_MESSAGE'])
-            }
+            },({nMessage}, _, {user})=>{
+                if (nMessage.from===user.data.email || nMessage.to===user.data.email){
+                    return true
+                }
+                return false
+            })
         }
     }
 }
