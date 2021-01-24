@@ -3,6 +3,9 @@ import {Row,Col,Navbar,Nav,Form, Container} from 'react-bootstrap'
 import {useAuthDispatch} from '../../context/auth'
 import {gql, useLazyQuery,useMutation} from '@apollo/client'
 import ChatUsers from './ChatUsers'
+import {useSubscription} from '@apollo/client'
+
+import {useAuthState} from '../../context/auth'
 
 const GET_MESSAGE=gql`
       query fetchMessage($sender:String!){
@@ -19,18 +22,39 @@ const SEND_MESSAGE=gql`
       }
 `
 
+const NEW_MESSAGE=gql`
+      subscription nMessage{
+          nMessage{
+              from to content
+          }
+      }
+`
 export default function Home (props){
     const dispatch = useAuthDispatch()
     const [userSelected, setUserSelected]= useState(null)
     const [content,setContent]=useState('')
     
+    const {data:sentMessage,error:messageError}=useSubscription(NEW_MESSAGE)
+
     const [fetchMessage,{loading:loadingMessages,data:messageData}]=useLazyQuery(GET_MESSAGE)
+    const {user}=useAuthState()
 
     const [sendMessage]=useMutation(SEND_MESSAGE,{
         refetchQueries:resultMutation=>[{query:GET_MESSAGE, variables:{sender:userSelected}}],
         onError: err=> console.log(err)
 
     })
+
+    useEffect(() => {
+        
+        if (messageError){
+            console.log(messageError)
+        }
+        if(sentMessage){
+            console.log(sentMessage.nMessage.to,user.data.email)
+            
+        }
+    }, [messageError,sentMessage])
 
     useEffect(() => {
         if (userSelected){
