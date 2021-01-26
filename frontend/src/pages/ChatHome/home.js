@@ -1,10 +1,9 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import {Row,Col,Navbar,Nav,Form, Container} from 'react-bootstrap'
 import {useAuthDispatch} from '../../context/auth'
 import {gql, useLazyQuery,useMutation} from '@apollo/client'
 import ChatUsers from './ChatUsers'
 import {useSubscription} from '@apollo/client'
-
 import {useAuthState} from '../../context/auth'
 
 const GET_MESSAGE=gql`
