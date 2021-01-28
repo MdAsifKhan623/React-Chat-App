@@ -1,7 +1,8 @@
 .register-card{
-    height:500px;
+    height:700px;
     width:500px;
     margin:100px 500px 100px; 
+    border-radius: 5px;
 }
 .register-col{
     width:100px;
