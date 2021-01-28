@@ -27,7 +27,8 @@ function Register(props){
         name:"",
         email:"",
         password:"",
-        confirmPassword:""
+        confirmPassword:"",
+        image:""
     })
     let [errors,setErrors]=useState({})
     const [registerUser, { loading }] = useMutation(REGISTER_USER,{
@@ -91,6 +92,17 @@ function Register(props){
                             className={errors.confirmPassword && 'in-valid'}
                             onChange={(e)=>{
                                 setVariables({...variables,confirmPassword:e.target.value})
+                            }}  />
+                        </Form.Group>
+                        <Form.Group >
+                            <Form.Label className={errors.image && 'text-danger' }>
+                                {errors.image ?? 'Enter Image URL'}
+                            </Form.Label>
+                            <Form.Control type="password"
+                            value={variables.image}
+                            className={errors.image && 'in-valid'}
+                            onChange={(e)=>{
+                                setVariables({...variables,image:e.target.value})
                             }}  />
                         </Form.Group>
                         <div className="text-center">
