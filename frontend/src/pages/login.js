@@ -36,7 +36,6 @@ function Login(props){
     let [errors,setErrors]=useState({})
     const [loginUser, { loading }] = useLazyQuery(LOGIN_USER,{
         onError(err){
-            console.log(err)
             setErrors(err.graphQLErrors[0].extensions.error)
         },
         onCompleted(data){
