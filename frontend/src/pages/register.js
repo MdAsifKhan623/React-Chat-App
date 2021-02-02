@@ -21,6 +21,7 @@ const REGISTER_USER = gql`
 
 const cardstyle={
     border:"3px solid #19d3da",
+    borderRadius:'5px'
 }
 function Register(props){
     const [variables,setVariables]=useState({
