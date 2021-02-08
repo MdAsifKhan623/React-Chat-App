@@ -2,7 +2,6 @@ const { ApolloServer } = require('apollo-server-express');
 const express=require('express')
 const mongoose=require('mongoose')
 const contextMiddleware =require('./Util/contextMiddleware')
-// const resolvers = require('./GraphQl/resolvers')
 const resolvers=require('./GraphQl/resolvers/resolverIndex')
 const typeDefs= require('./GraphQl/typeDefs')
 const {createServer} =require('http')
