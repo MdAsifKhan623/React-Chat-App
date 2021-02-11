@@ -11,7 +11,6 @@ import { gql, useLazyQuery } from '@apollo/client';
 import {Link} from 'react-router-dom'
 import {useAuthDispatch} from '../context/auth'
 
-
 const LOGIN_USER = gql`
     query login($email:String!, $password:String!) {
         login(email: $email, password:$password) {
