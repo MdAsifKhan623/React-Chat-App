@@ -12,12 +12,12 @@ export default function NewDynamic(props){
         
     }
     else if (props.guest==='true' && user !== null){
-        // console.log('inside the new dynamic function home page')
+
         return <Redirect to ="/" />
         
     }
     else{
-        // console.log('inside the new dynamic function else')
+        
         return <Route component={props.component} {...props} />
     }
 
