@@ -7,7 +7,7 @@ export default function NewDynamic(props){
     const {user} = useAuthState()
     console.log(user,props)
     if (props.authenticated==="true" && !user){
-        // console.log('inside the new dynamic function login')
+        
         return <Redirect to="/login" />
         
     }
