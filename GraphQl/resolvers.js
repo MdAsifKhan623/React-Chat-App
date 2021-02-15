@@ -161,7 +161,6 @@ module.exports={
                     throw new AuthenticationError('Unauthenticated')
                 }
                 recipient1=await regUser.findOne({email:to})
-                console.log("Hello-->",recipient1)
                 
                 if (recipient1===null){
                     throw new UserInputError('User Not Found')
