@@ -28,6 +28,18 @@ const NEW_MESSAGE=gql`
           }
       }
 `
+
+const GET_USERS=gql`
+    query registeredUsers{
+        registeredUsers{
+            email name password
+            latestMessage{
+              from to content
+            }
+          }
+      }
+`
+
 export default function Home (props){
     const dispatch = useAuthDispatch()
     const [userSelected, setUserSelected]= useState(null)
@@ -43,6 +55,7 @@ export default function Home (props){
         onError: err=> console.log(err)
 
     })
+    
 
     useEffect(() => {
         

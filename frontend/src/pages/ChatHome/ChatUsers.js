@@ -2,6 +2,7 @@ import React from 'react'
 import {gql, useQuery} from '@apollo/client'
 import {Col,Image} from 'react-bootstrap'
 import classNames from 'classnames'
+import {useMessageDispatch,useMessageState} from '../../context/messageContext'
 
 const GET_USERS=gql`
     query registeredUsers{
@@ -14,20 +15,25 @@ const GET_USERS=gql`
       }
 `
 
-
-
 export default function ChatUsers({setUserSelected, selectedUser}) {
-    const {loading, data, error}= useQuery(GET_USERS)
+    // const {loading, data, error}= useQuery(GET_USERS)
+    const messageDispatch=useMessageDispatch()
+    const {users}= useMessageState()
+    const {loading}=useQuery(GET_USERS,{
+        onCompleted: data => messageDispatch({type:'SET_USERS', payload:data.registeredUsers}),
+        onError:error=> console.log(error)
+
+    })
     const imageUrl="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
     let usersTable
-    if (loading || !data){
+    if (loading || !users){
         usersTable=<p>Loading</p>
     }
-    else if (data.registeredUsers.length===0){
+    else if (users.length===0){
         usersTable=<p>No Users Yet</p>
     }
-    else if (data.registeredUsers.length>0){
-        usersTable=data.registeredUsers.map(user=>{
+    else if (users.length>0){
+        usersTable=users.map(user=>{
             const sUSer=selectedUser===user.email
             return (<div role="button" 
                     className={classNames('d-flex p-3 selected-div',{

@@ -8,18 +8,21 @@ import Login from './pages/login'
 import ApolloProvider1 from './AppoloProvider'
 import {AuthProvider} from '../src/context/auth'
 import NewDynamic from './pages/newRouteDynamic'
+import {MessageProvider} from '../src/context/messageContext'
 
 function App(){
     return (
         <ApolloProvider1>
             <AuthProvider>
-                <Router>
-                        <Switch>
-                            <NewDynamic exact path="/" component={Home} authenticated="true" />
-                            <NewDynamic exact path="/register" component={Register} guest="true"/>
-                            <NewDynamic exact path="/login" component={Login} guest="true"/>
-                        </Switch>
-                </Router>
+                <MessageProvider>
+                    <Router>
+                            <Switch>
+                                <NewDynamic exact path="/" component={Home} authenticated="true" />
+                                <NewDynamic exact path="/register" component={Register} guest="true"/>
+                                <NewDynamic exact path="/login" component={Login} guest="true"/>
+                            </Switch>
+                    </Router>
+                </MessageProvider>
             </AuthProvider>
         </ApolloProvider1>
     )
