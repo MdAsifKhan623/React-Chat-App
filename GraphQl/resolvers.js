@@ -143,7 +143,6 @@ module.exports={
                 //create user
                 newUser = new regUser({name,email,password,confirmPassword})
                 newUser.save()
-                //return user
                 
                 return newUser
                 
