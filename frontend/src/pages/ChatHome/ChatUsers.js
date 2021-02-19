@@ -38,7 +38,10 @@ export default function ChatUsers({setUserSelected, selectedUser}) {
             return (<div role="button" 
                     className={classNames('d-flex p-3 selected-div',{
                         'bg-white':sUSer,
-                    })} key={user.email} onClick={()=> setUserSelected(user.email)}>
+                    })} key={user.email} onClick={()=> {
+                        setUserSelected(user.email)
+                        messageDispatch({type:'SET_SELECTED_USER',payload:user.email})
+                        }}>
                     <Image src={imageUrl} roundedCircle className="mr-2" 
                     style={{width:50, height:50,objectFit:'cover'}}
                     />

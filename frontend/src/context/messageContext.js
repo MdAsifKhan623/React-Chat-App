@@ -11,6 +11,10 @@ const messageReducer=(state,action)=>{
                 ...state,
                 users:action.payload
             }
+        case 'SET_USER_MESSAGES':
+            const {user, messages}=action.payload
+        case 'SET_SELECTED_USER':
+
         default:
             throw new Error(`Unknown Action Type:${action.type}`)
     }

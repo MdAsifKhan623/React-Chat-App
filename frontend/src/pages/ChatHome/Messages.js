@@ -13,6 +13,12 @@ const GET_MESSAGE=gql`
 export default function Messages() {
     const [fetchMessage,{loading:loadingMessages,data:messageData}]=useLazyQuery(GET_MESSAGE)
 
+
+    useEffect(() => {
+        if (userSelected){
+            fetchMessage({variables:{sender:userSelected}})
+        }
+    }, [userSelected])
     return (
         <Col xs={8}>
             <center>Messages</center>
